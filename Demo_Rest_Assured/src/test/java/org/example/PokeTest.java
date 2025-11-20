@@ -10,11 +10,11 @@ public class PokeTest {
     public void testGetPikachu() {
         given()
                 .baseUri("https://pokeapi.co/api/v2")
+                .contentType("application/json")
                 .when()
                 .get("/pokemon/pikachu")
                 .then()
                 .statusCode(200)
-                .contentType("application/json")
                 .body("name", equalTo("pikachu"))
                 .body("id", equalTo(25))
                 .body("types[0].type.name", equalTo("electric"));
@@ -24,6 +24,7 @@ public class PokeTest {
     public void testGetPokemonById() {
         given()
                 .baseUri("https://pokeapi.co/api/v2")
+                .contentType("application/json")
                 .pathParam("id", 150)
                 .when()
                 .get("/pokemon/{id}")
@@ -37,6 +38,7 @@ public class PokeTest {
     public void testListPokemon() {
         given()
                 .baseUri("https://pokeapi.co/api/v2")
+                .contentType("application/json")
                 .queryParam("limit", 50)
                 .when()
                 .get("/pokemon")
