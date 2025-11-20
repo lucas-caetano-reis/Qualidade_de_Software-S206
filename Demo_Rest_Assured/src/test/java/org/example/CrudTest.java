@@ -2,6 +2,8 @@ package org.example;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+
+import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Test;
 
 
@@ -36,6 +38,32 @@ public class CrudTest {
                 .body("data.id", equalTo(2))
                 .body("data.first_name", equalTo("Janet"))
                 .body("data.last_name", equalTo("Weaver"));
+    }
+
+    @Test
+    public void testGetUserNull() {
+        given()
+                .baseUri("https://reqres.in/api")
+                .contentType("application/json")
+                .header("x-api-key", "reqres-free-v1")
+                .when()
+                .get("/users/2")
+                .then()
+                .statusCode(200)
+                .body("name", nullValue())
+                .body("job", nullValue());
+    }
+
+    @Test
+    public void testGetUserNotFound() {
+        given()
+                .baseUri("https://reqres.in/api")
+                .contentType("application/json")
+                .header("x-api-key", "reqres-free-v1")
+                .when()
+                .get("/users/500")
+                .then()
+                .statusCode(404);
     }
 
     @Test
